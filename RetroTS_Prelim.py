@@ -4,7 +4,7 @@ function [Opt, R, E] = RetroTS(SN)
 import sys
 import numpy as np
 '''
-if (nargin < 1), 
+if (nargin < 1),
    fprintf(2,'Need some input.\n');
    return;
 end
@@ -30,11 +30,11 @@ if (type(sys.argv[1]) != 'numpy.ndarray':
 '''
    %Get some info from header file and set params
    f = fopen(lll(3).name, 'r');
-   s = fscanf(f,'%c');             
+   s = fscanf(f,'%c');
    fclose(f);
    ns = length(s);
-   pat = 'RT Physio:\W*sampling\W*';                 
-   Opt.PhysFS = 1000/str2num(strtok(s(regexp(s,pat,'end'):ns)));        
+   pat = 'RT Physio:\W*sampling\W*';
+   Opt.PhysFS = 1000/str2num(strtok(s(regexp(s,pat,'end'):ns)));
    Opt.Nslices = 20;
    Opt.VolTR = 2;
    Opt.SliceMajor = 1;
@@ -50,21 +50,24 @@ if (type(sys.argv[1]) != 'numpy.ndarray':
    Opt.CardCutoffFreq = 3;
    Opt.Respfile = lll(1).name;
    Opt.Cardfile = lll(1).name;
-   Opt.SliceOffset = ... 
-      [0:Opt.VolTR./Opt.Nslices:Opt.VolTR-Opt.VolTR./Opt.Nslices]; 
+   Opt.SliceOffset = ...
+      [0:Opt.VolTR./Opt.Nslices:Opt.VolTR-Opt.VolTR./Opt.Nslices];
    Opt.Prefix = sprintf('%d',iscan);
    Opt.SepDups = 0;
    clear ('s');
    clear ('SN');
 '''
+'''
+    ####This is just dummy data for testing purposes, don't worry about this yet
     #Get some info from header file and set params
     f = open(lll[files for files in lll], 'r')
-    ####need a way to measure matrix size of f, then pass this along to np.chararray to create array before filling with f data
+    ####Need a way to measure matrix size of f, then pass this along to
+    ####np.chararray to create array before filling with f data
     s = np.chararray(f)
     close(f);####Not sure if close actually closes file f (look it up)
     ns = length(s);
-    pat = 'RT Physio:\W*sampling\W*';                 
-    Opt.PhysFS = 1000/str2num(strtok(s(regexp(s,pat,'end'):ns)));        
+    pat = 'RT Physio:\W*sampling\W*';
+    Opt.PhysFS = 1000/str2num(strtok(s(regexp(s,pat,'end'):ns)));
     Opt.Nslices = 20;
     Opt.VolTR = 2;
     Opt.SliceMajor = 1;
@@ -80,15 +83,28 @@ if (type(sys.argv[1]) != 'numpy.ndarray':
     Opt.CardCutoffFreq = 3;
     Opt.Respfile = lll(1).name;
     Opt.Cardfile = lll(1).name;
-    Opt.SliceOffset = ... 
-      [0:Opt.VolTR./Opt.Nslices:Opt.VolTR-Opt.VolTR./Opt.Nslices]; 
+    Opt.SliceOffset = ...
+      [0:Opt.VolTR./Opt.Nslices:Opt.VolTR-Opt.VolTR./Opt.Nslices];
     Opt.Prefix = sprintf('%d',iscan);
     Opt.SepDups = 0;
     clear ('s');
     clear ('SN');
 '''
+'''
 else,
    Opt = SN; clear ('SN');
+'''
+else:
+    Opt = SN
+    SN = ''
+    Opt.err = 1
+    Opt.zerophaseoffset = 0
+    if ((!Opt['Respfile']) or Opt['Respfile'] is none):
+        Opt['Respfile'] = ''
+        Opt['Resp_out'] = 0
+        Opt['RVT_out'] = 0
+    if
+'''
    Opt.err = 1; Opt.zerophaseoffset = 0;
    if ( (~isfield(Opt,'Respfile') | isempty(Opt.Respfile))),
       Opt.Respfile = '';
@@ -133,7 +149,7 @@ else,
    if ( ~isfield(Opt,'ResamKernel') | isempty(Opt.ResamKernel)),
       Opt.ResamKernel='linear';
    end
-   
+
    if ( ~isfield(Opt,'FIROrder') | isempty(Opt.FIROrder)),
       Opt.FIROrder=40;
    end
@@ -145,7 +161,7 @@ else,
    end
    if ( ~isfield(Opt,'Prefix') | isempty(Opt.Prefix)),
       Opt.Prefix = 'oba';
-   end   
+   end
    if ( ~isfield(Opt,'Resp_out') | isempty(Opt.Resp_out)),
       Opt.Resp_out = 1;
    end
@@ -161,17 +177,17 @@ else,
 
    dtt = Opt.VolTR/Opt.Nslices; tt = 0.0;
 
-   % & ~isfield(Opt, 'SliceOffset') 
+   % & ~isfield(Opt, 'SliceOffset')
    % & (Opt.SliceOrder ~= 'alt+z')
 
-      % default slice offset times are for alt+z (alternating slice timing)        
+      % default slice offset times are for alt+z (alternating slice timing)
    if ( ~isfield(Opt,'SliceOffset') | isempty(Opt.SliceOffset))
       Opt.SliceOffset=zeros(Opt.Nslices,1);
    end
    if(~isfield(Opt,'SliceOrder'))
       Opt.SliceOrder = 'alt+z'
    end
-      
+
    if (isfield(Opt,'SliceOrder'))
       Opt.SliceOffset=zeros(Opt.Nslices,1);
       if(strcmpi(Opt.SliceOrder,'alt+z'))
@@ -216,11 +232,11 @@ else,
          end
       end
    end
-   if(~Opt.Quiet) 
+   if(~Opt.Quiet)
       fprintf('Slice timing:'); Opt.SliceOffset
    end
    if ( ~isfield(Opt,'ShowGraphs') | isempty(Opt.ShowGraphs)),
       Opt.ShowGraphs = 1; % show graphs by default
-   end   
+   end
 end
 '''
