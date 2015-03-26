@@ -93,18 +93,6 @@ if (type(sys.argv[1]) != 'numpy.ndarray':
 '''
 else,
    Opt = SN; clear ('SN');
-'''
-else:
-    Opt = SN
-    SN = ''
-    Opt.err = 1
-    Opt.zerophaseoffset = 0
-    if ((!Opt['Respfile']) or Opt['Respfile'] is none):
-        Opt['Respfile'] = ''
-        Opt['Resp_out'] = 0
-        Opt['RVT_out'] = 0
-    if
-'''
    Opt.err = 1; Opt.zerophaseoffset = 0;
    if ( (~isfield(Opt,'Respfile') | isempty(Opt.Respfile))),
       Opt.Respfile = '';
@@ -119,6 +107,24 @@ else:
       fprintf(2,'No Respfile or Cardfile\n');
       return;
    end
+   
+'''
+
+else:
+    Opt = SN
+    SN = ''
+    Opt.err = 1
+    Opt.zerophaseoffset = 0
+    if ((!Opt['Respfile']) or Opt['Respfile'] is none):
+        Opt['Respfile'] = ''
+        Opt['Resp_out'] = 0
+        Opt['RVT_out'] = 0
+    if ((!Opt['Cardfile']) or Opt['Cardfile'] is none):
+        Opt['Cardfile'] = ''
+        Opt['Card_out'] = 0
+    if ((!Opt['Respfile']) or Opt['Respfile'] is none) and ((!Opt['Cardfile']) or Opt['Cardfile'] is none):
+        print 'No Respfile or Cardfile\n'
+'''
    if ( ~isfield(Opt,'PhysFS') | isempty(Opt.PhysFS)),
       fprintf(2,'Missing field PhysFS\n');
       return;
