@@ -1,4 +1,4 @@
-__author__ = 'Joshua'
+__author__ = 'Joshua Zosky'
 
 import numpy as np
 

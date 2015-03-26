@@ -1,20 +1,13 @@
-'''
-function [Opt, R, E] = RetroTS(SN)
-'''
-import sys
-import numpy as np
-'''
-if (nargin < 1),
-   fprintf(2,'Need some input.\n');
-   return;
-end
+__author__ = 'Joshua Zosky'
 
-R = struct([]);
-E = struct([]);
-'''
+import sys
+
 if len(sys.argv) < 2:
     print 'Need some input.\n'
     quit()
+R = {}
+E = {}
+
 #########################
 '''
 if (~isstruct(SN)), %mode 1, toy mode
@@ -23,15 +16,29 @@ if (~isstruct(SN)), %mode 1, toy mode
                   sprintf('ECG*%d*',iscan),...
                   sprintf('scan*%d*', iscan)});
 '''
-if (type(sys.argv[1]) != 'numpy.ndarray':
+if (type(sys.argv[1]) != 'dict'):
     iscan = 12
-    lll = zglobb(sprintf('Resp*%d*',iscan), sprintf('ECG*%d*',iscan), sprintf('scan*%d*', iscan)})#what is zglobb object? is this just loading defaults?
+    #lll = zglobb(sprintf('Resp*%d*',iscan), sprintf('ECG*%d*',iscan), sprintf('scan*%d*', iscan)})#what is zglobb object? is this just loading defaults?
     ####lll = {'Resp*%d*'%iscan:zglobb[1], 'ECG*%d*'%iscan:zglobb[2], 'scan*%d*'%iscan:zglobb[3]}######Potentially this is a good workaround
 '''
    %Get some info from header file and set params
    f = fopen(lll(3).name, 'r');
    s = fscanf(f,'%c');
    fclose(f);
+'''
+   ####Get some info from header file and set params
+fileStuff = ''
+with open('README.md', 'r') as f:
+    s = f.read(1)
+    while s != '':
+        fileStuff = fileStuff + s
+        s = f.read(1)
+    print fileStuff
+ns = len(fileStuff)
+pat = 'RT Physio:\W*sampling\W*'#####What does this mean:" \W* "?
+print ns
+print pat
+'''
    ns = length(s);
    pat = 'RT Physio:\W*sampling\W*';
    Opt.PhysFS = 1000/str2num(strtok(s(regexp(s,pat,'end'):ns)));
@@ -107,9 +114,9 @@ else,
       fprintf(2,'No Respfile or Cardfile\n');
       return;
    end
-   
-'''
 
+'''
+'''
 else:
     Opt = SN
     SN = ''
@@ -124,7 +131,7 @@ else:
         Opt['Card_out'] = 0
     if ((!Opt['Respfile']) or Opt['Respfile'] is none) and ((!Opt['Cardfile']) or Opt['Cardfile'] is none):
         print 'No Respfile or Cardfile\n'
-
+'''
 '''
    if ( ~isfield(Opt,'PhysFS') | isempty(Opt.PhysFS)),
       fprintf(2,'Missing field PhysFS\n');
@@ -181,69 +188,4 @@ else:
    if ( ~isfield(Opt,'SepDups') | isempty(Opt.SepDups)),
       Opt.SepDups = 0;
    end
-
-   dtt = Opt.VolTR/Opt.Nslices; tt = 0.0;
-
-   % & ~isfield(Opt, 'SliceOffset')
-   % & (Opt.SliceOrder ~= 'alt+z')
-
-      % default slice offset times are for alt+z (alternating slice timing)
-   if ( ~isfield(Opt,'SliceOffset') | isempty(Opt.SliceOffset))
-      Opt.SliceOffset=zeros(Opt.Nslices,1);
-   end
-   if(~isfield(Opt,'SliceOrder'))
-      Opt.SliceOrder = 'alt+z'
-   end
-
-   if (isfield(Opt,'SliceOrder'))
-      Opt.SliceOffset=zeros(Opt.Nslices,1);
-      if(strcmpi(Opt.SliceOrder,'alt+z'))
-         for (i=1:2:Opt.Nslices),
-            Opt.SliceOffset(i) = tt; tt = tt+dtt;
-         end
-         for (i=2:2:Opt.Nslices),
-            Opt.SliceOffset(i) = tt; tt = tt+dtt;
-         end
-      elseif(strcmpi(Opt.SliceOrder, 'alt+z2'))
-         for (i=2:2:Opt.Nslices),
-            Opt.SliceOffset(i) = tt; tt = tt+dtt;
-         end
-         for (i=1:2:Opt.Nslices),
-            Opt.SliceOffset(i) = tt; tt = tt+dtt;
-         end
-      elseif(strcmpi(Opt.SliceOrder, 'seq+z'))
-         for (i=1:1:Opt.Nslices),
-            Opt.SliceOffset(i) = tt; tt = tt+dtt;
-         end
-      elseif(strcmpi(Opt.SliceOrder,'seq-z'))
-         for (i=Opt.Nslices:-1:1),
-            Opt.SliceOffset(i) = tt; tt = tt+dtt;
-         end
-      elseif(strcmpi(Opt.SliceOrder,'alt-z'))
-         for (i=Opt.Nslices:-2:1),
-            Opt.SliceOffset(i) = tt; tt = tt+dtt;
-         end
-         for (i=Opt.Nslices-1:-2:1),
-            Opt.SliceOffset(i) = tt; tt = tt+dtt;
-         end
-      elseif(strcmpi(Opt.SliceOrder,'Custom'))
-          % timing already set in Opt.SliceOffset, do nothing
-      else
-         % read in time offsets from a file (SliceOrder is actually a
-         % filename)
-         readopt.verb = 0;
-         [err, Opt.SliceOffset] = Read_1D(Opt.SliceOrder,readopt);
-         if(length(Opt.SliceOffset)~=Opt.Nslices)
-            fprintf('Could not read enough slice offsets from file');
-            exit(1);
-         end
-      end
-   end
-   if(~Opt.Quiet)
-      fprintf('Slice timing:'); Opt.SliceOffset
-   end
-   if ( ~isfield(Opt,'ShowGraphs') | isempty(Opt.ShowGraphs)),
-      Opt.ShowGraphs = 1; % show graphs by default
-   end
-end
 '''

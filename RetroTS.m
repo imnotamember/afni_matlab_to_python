@@ -48,7 +48,6 @@ function [Opt, R, E] = RetroTS(SN)
 %  Opt.PhysFS = 1./0.02;   %20 msec sampling period, 50 samples per second
 %  RetroTS(Opt);
 %
-
 % Input Mode 2 (for testing purposes only):
 %  Opt: Scan number for file triplet to be processed.
 %      Files called Resp*SN*, ECG*SN*, and scan*SN* are presumed to
@@ -58,10 +57,8 @@ function [Opt, R, E] = RetroTS(SN)
 % Output:
 %  Opt: Structure of options including default settings.
 %
-
 % This option is not to be used because window width calculations do not use it
 %     ResampFS: Frequency of resampled signal (default is same as PhysFS)
-
 %Implementation Notes:
 %%%%%%%%%%%%%%%%%%%%%%
 % The script is intended as a prototype for development in C or Python
