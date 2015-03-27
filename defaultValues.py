@@ -38,6 +38,7 @@ ns = len(fileStuff)
 pat = 'RT Physio:\W*sampling\W*'#####What does this mean:" \W* "?
 print ns
 print pat
+Opt = {'PhysFS': 1000/int(strtok(s(regexp(s,pat,'end'):ns)))}
 '''
    ns = length(s);
    pat = 'RT Physio:\W*sampling\W*';
