@@ -1,5 +1,5 @@
 function [R] = PhaseEstimator(R, Opt)
-
+########################################################################################################################
 if (~isfield(Opt, 'AmpPhase') | ~Opt.AmpPhase),
    for (icol=1:1:length(R)),
       %Calculate the phase of the trace, with the peak  
@@ -31,6 +31,7 @@ if (~isfield(Opt, 'AmpPhase') | ~Opt.AmpPhase),
       %change phase to radians
       R(icol).phz = R(icol).phz.*2.*pi;
    end
+########################################################################################################################
 else, %phase based on amplitude 
    for (icol=1:1:length(R)),
       % at first scale to the max
@@ -95,7 +96,7 @@ else, %phase based on amplitude
       end
    end
 end
-
+########################################################################################################################
 for (icol=1:1:length(R)),
    R(icol).tst = [0:Opt.VolTR:max(R(icol).t)-0.5*Opt.VolTR]; %time series time vector
    R(icol).phz_slc = zeros(length(R(icol).tst),Opt.Nslices);
@@ -112,7 +113,7 @@ for (icol=1:1:length(R)),
       R(icol).phz_slc_reg(:,3, isl) = sin(2.*R(icol).phz_slc(:,isl));
       R(icol).phz_slc_reg(:,4, isl) = cos(2.*R(icol).phz_slc(:,isl));
    end
-
+   #####################################################################################################################
    if (~Opt.Quiet && Opt.ShowGraphs),
       fprintf(2,[ '--> Calculated phase\n',...
                   '\n']);
@@ -136,5 +137,6 @@ for (icol=1:1:length(R)),
          uiwait(msgbox('Press button to resume', 'Pausing', 'modal'));
       end
    end
+########################################################################################################################
 end
 return;
