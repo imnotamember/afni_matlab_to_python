@@ -1,0 +1,10 @@
+Progress on 5/25/15:
+    followed RetroTS.m to zglobb.m
+    followed zglobb.m to GetPath.m
+    Need to convert GetPath.m to python module.
+Progress on 5/27/15:
+    GetPath.m takes a string (i.e. 'C:\Users\file.txt') and returns:
+        err = if there was an error
+        p = path component of string (i.e. 'C:\Users\')
+        f = file component of string (i.e. 'file.txt')
+    
